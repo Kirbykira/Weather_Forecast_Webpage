@@ -3,7 +3,7 @@ import plotly.express as px
 from backend import get_data
 
 #title
-st.title("Weather Forecast for the Next Day")
+st.title("Weather Forecast for the Next Few Days")
 place = st.text_input("Place: ")
 days = st.slider("Forecast Days", min_value=1, max_value=5,
                  help="Select the number of forecasted days")
@@ -18,7 +18,7 @@ try:
 
         if option == "Temperature":
         # Create temperature plot
-            temperatures = [dict["main"]["temp"] /10 for dict in filtered_data]
+            temperatures = [(dict["main"]["temp"] /10 - 32) * 5/9 for dict in filtered_data]
             dates = [dict["dt_txt"] for dict in filtered_data]
             figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y":"Temperature(C)"})
             st.plotly_chart(figure)
